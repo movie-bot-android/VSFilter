@@ -11,12 +11,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Download DirectShow BaseClasses
+    # BaseClasses aus MPC-BE laden (zuverlässige Quelle)
+    - name: Download MPC-BE BaseClasses
       run: |
-        curl -L -o baseclasses.zip https://github.com/ShiftMediaProject/DirectShowBaseClasses/archive/refs/heads/master.zip
-        tar -xf baseclasses.zip
-        mkdir external\BaseClasses
-        xcopy DirectShowBaseClasses-master\BaseClasses external\BaseClasses /E /I /Y
+        curl -L -o mpcbe.zip https://github.com/Aleksoid1978/MPC-BE/archive/refs/heads/master.zip
+        tar -xf mpcbe.zip
+        if not exist external\BaseClasses mkdir external\BaseClasses
+        xcopy MPC-BE-master\src\filters\BaseClasses external\BaseClasses /E /I /Y
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
@@ -27,22 +28,10 @@ jobs:
     - name: Build x64
       run: msbuild VSFilterBE.sln /p:Configuration=Release /p:Platform=x64
 
-    - name: Create registration scripts
-      run: |
-        echo regsvr32 "VSFilterBE_x64.dll" > register_x64.cmd
-        echo regsvr32 /u "VSFilterBE_x64.dll" > unregister_x64.cmd
-
-        echo %windir%\SysWOW64\regsvr32 "VSFilterBE_x86.dll" > register_x86.cmd
-        echo %windir%\SysWOW64\regsvr32 /u "VSFilterBE_x86.dll" > unregister_x86.cmd
-
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: VSFilterBE-Binaries
         path: |
-          bin/Release/x86/*
-          bin/Release/x64/*
-          register_x86.cmd
-          register_x64.cmd
-          unregister_x86.cmd
-          unregister_x64.cmd
+          bin/Release/x86/VSFilterBE.dll
+          bin/Release/x64/VSFilterBE.dll
