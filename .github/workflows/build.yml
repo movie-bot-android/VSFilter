@@ -27,5 +27,5 @@ jobs:
       with:
         name: VSFilterBE-Binaries
         path: |
-          bin/Release/x86/VSFilterBE.dll
-          bin/Release/x64/VSFilterBE.dll
+          _bin/Filter_x86/VSFilterBE.dll
+          _bin/Filter_x64/VSFilterBE.dll
