@@ -19,7 +19,7 @@ jobs:
         if (!(Test-Path "external/BaseClasses")) {
           New-Item -ItemType Directory -Path "external/BaseClasses" | Out-Null
         }
-        Copy-Item "MPC-BE-master/src/filters/BaseClasses/*" "external/BaseClasses" -Recurse -Force
+        Copy-Item "MPC-BE-master/src/filters/transform/BaseClasses/*" "external/BaseClasses" -Recurse -Force
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
