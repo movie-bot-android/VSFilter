@@ -8,17 +8,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository (with submodules)
       uses: actions/checkout@v3
-
-    - name: Clone DirectShow BaseClasses
-      shell: pwsh
-      run: |
-        git clone https://github.com/ShiftMediaProject/DirectShowBaseClasses.git
-        if (!(Test-Path "external/BaseClasses")) {
-          New-Item -ItemType Directory -Path "external/BaseClasses" | Out-Null
-        }
-        Copy-Item "DirectShowBaseClasses/BaseClasses/*" "external/BaseClasses" -Recurse -Force
+      with:
+        submodules: recursive
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
