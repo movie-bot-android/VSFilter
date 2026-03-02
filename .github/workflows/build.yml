@@ -11,13 +11,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # BaseClasses aus MPC-BE laden (zuverlässige Quelle)
     - name: Download MPC-BE BaseClasses
+      shell: pwsh
       run: |
         curl -L -o mpcbe.zip https://github.com/Aleksoid1978/MPC-BE/archive/refs/heads/master.zip
         tar -xf mpcbe.zip
-        if not exist external\BaseClasses mkdir external\BaseClasses
-        xcopy MPC-BE-master\src\filters\BaseClasses external\BaseClasses /E /I /Y
+        if (!(Test-Path "external/BaseClasses")) {
+          New-Item -ItemType Directory -Path "external/BaseClasses" | Out-Null
+        }
+        Copy-Item "MPC-BE-master/src/filters/BaseClasses/*" "external/BaseClasses" -Recurse -Force
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
