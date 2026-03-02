@@ -14,8 +14,8 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.1
 
-    - name: Build Win32 (x86)
-      run: msbuild VSFilterBE.sln /p:Configuration=Release /p:Platform=Win32
+    - name: Build x86
+      run: msbuild VSFilterBE.sln /p:Configuration=Release /p:Platform=x86
 
     - name: Build x64
       run: msbuild VSFilterBE.sln /p:Configuration=Release /p:Platform=x64
@@ -25,5 +25,5 @@ jobs:
       with:
         name: VSFilterBE-Binaries
         path: |
-          bin/Release/Win32/*
+          bin/Release/x86/*
           bin/Release/x64/*
